@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PeanutBuild Corp.｜PeanutSMP 私人建築公司</title>
+  <meta name="description" content="PeanutBuild Corp. 是 PeanutSMP 內的私人建築公司，專門處理大型建築、公寓等團隊需求，並提供專屬網站與 NUTS-VCE 憑證。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+  <!-- 背景裝飾 -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <span class="logo-icon">🥜</span>
+        <div class="logo-text">
+          <strong>PeanutBuild</strong>
+          <span>Corp.</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#features">服務</a>
+        <a href="#pricing">價格</a>
+        <a href="#apply">申請</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <p class="badge">PeanutSMP 官方合作建築商</p>
+        <h1>PeanutBuild <span>Corp.</span></h1>
+        <p class="hero-sub">Peanut建築公司 · PeanutSMP 內的私人建築公司</p>
+        <p class="hero-desc">
+          我們專門為 PeanutSMP 團隊打造大型建築、公寓與客製化結構，並提供專屬網站與合法 NUTS-VCE 建造憑證。
+        </p>
+        <a href="#apply" class="btn btn-primary">現在就開始訂製</a>
+      </div>
+    </section>
+
+    <!-- 功能區塊 -->
+    <section id="features" class="features">
+      <div class="container">
+        <h2 class="section-title">我們能為你做什麼</h2>
+        <div class="cards">
+          <article class="card">
+            <div class="card-icon">🏗️</div>
+            <h3>處理 PeanutSMP 內的大型建築</h3>
+            <p>我們為 PeanutSMP 建造公寓等建築，專門接收團隊建築需求。</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">🌐</div>
+            <h3>建築物有專屬的網站與 NUTS-VCE</h3>
+            <p>你不需要去設定任何網域／學會程式代碼，一切交給我們。</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">📦</div>
+            <h3>價格按方塊算，更多方塊省越多</h3>
+            <p>一個方塊就等於需要付 0.5 個泥土。當材料來到 500 方塊時將會 −10 個你需要付的方塊（疊加，1000 = −20……）。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 價格說明 -->
+    <section id="pricing" class="pricing">
+      <div class="container">
+        <h2 class="section-title">計費方式</h2>
+        <div class="pricing-box">
+          <div class="pricing-main">
+            <span class="price-label">基礎單價</span>
+            <div class="price-value">0.5 <small>泥土 / 方塊</small></div>
+          </div>
+          <ul class="pricing-list">
+            <li>滿 <strong>500</strong> 方塊 → 再減 <strong>10</strong> 方塊費用（疊加）</li>
+            <li>滿 <strong>1000</strong> 方塊 → 再減 <strong>20</strong> 方塊費用</li>
+            <li>依此類推，量大更划算</li>
+          </ul>
+          <p class="pricing-note">最終費用以審核後的實際方塊數與材料為準。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA + 申請表單 -->
+    <section id="apply" class="apply-section">
+      <div class="container">
+        <div class="apply-intro">
+          <h2 class="section-title">現在就開始訂製吧</h2>
+          <p>按下下方按鈕開始填寫表單！</p>
+          <button type="button" class="btn btn-primary" id="open-form-btn">申請</button>
+        </div>
+
+        <!-- 表單面板（預設隱藏，點申請後顯示） -->
+        <div class="form-panel" id="form-panel" hidden>
+          <div class="form-header">
+            <h3>建築申請表單</h3>
+            <button type="button" class="btn-close" id="close-form-btn" aria-label="關閉">×</button>
+          </div>
+
+          <form id="apply-form" novalidate>
+            <div class="form-group">
+              <label for="gamertag">1. 請輸入你的 Minecraft 名稱（又稱 GamerTag）</label>
+              <input type="text" id="gamertag" name="gamertag" required placeholder="例如：Steve_123" autocomplete="username" />
+            </div>
+
+            <div class="form-group">
+              <label for="building">2. 請輸入團隊想要的建築物，具體建築物內容</label>
+              <textarea id="building" name="building" rows="4" required placeholder="請詳細描述建築外觀、用途、風格等…"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="nuts_team_id">3. 請輸入團隊的 NutsTeamID 以核對</label>
+              <input type="text" id="nuts_team_id" name="nuts_team_id" required placeholder="NutsTeamID" />
+              <p class="field-hint">
+                尚未有一個團隊嗎？
+                <a href="https://team.ccmc.dpdns.org/apply" target="_blank" rel="noopener noreferrer">前往申請！</a>
+              </p>
+            </div>
+
+            <div class="form-group">
+              <label for="materials">4. 建築想要用到的材料，請填寫完整方塊 ID</label>
+              <textarea id="materials" name="materials" rows="3" required placeholder="例如：minecraft:oak_planks, minecraft:stone, minecraft:glass…"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>5. 請填寫建築想要的樓層（此問題為選擇）</label>
+              <div class="floor-grid">
+                <fieldset>
+                  <legend>地面上樓層</legend>
+                  <div class="checkbox-row">
+                    <label><input type="checkbox" name="floors_above" value="F1" /> F1</label>
+                    <label><input type="checkbox" name="floors_above" value="F2" /> F2</label>
+                    <label><input type="checkbox" name="floors_above" value="F3" /> F3</label>
+                    <label><input type="checkbox" name="floors_above" value="F4" /> F4</label>
+                    <label><input type="checkbox" name="floors_above" value="F5" /> F5</label>
+                  </div>
+                </fieldset>
+                <fieldset>
+                  <legend>地面下樓層</legend>
+                  <div class="checkbox-row">
+                    <label><input type="checkbox" name="floors_below" value="B1" /> B1</label>
+                    <label><input type="checkbox" name="floors_below" value="B2" /> B2</label>
+                    <label><input type="checkbox" name="floors_below" value="B3" /> B3</label>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">6. 請填寫你的 Email</label>
+              <input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email" />
+            </div>
+
+            <div class="notice">
+              <p><strong>注意事項：</strong></p>
+              <p>提交了代表你是這個項目的負責人，審核成功後會發送到此郵件與團隊郵件；若建築申請不通過，您的 NUTS-VCE<em>註¹</em> 憑證也會同步不通過。</p>
+              <p class="footnote">
+                <em>註¹</em> Nuts-VCE 為 PeanutSMP 內的合法建造憑證且有書本與線上保存系統，當您的建築申請成功之後會在建築完工後給您書本的 Nuts-VCE 憑證並且帶有署名，憑證紀錄都有保存；若保存不當意外不見您需要再次申請額外的 Nuts-VCE 憑證且請至 Nuts-VCE 官網再次申請。
+              </p>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="submit-btn">提交申請</button>
+            </div>
+          </form>
+
+          <!-- 成功訊息 -->
+          <div class="success-msg" id="success-msg" hidden>
+            <div class="success-icon">✅</div>
+            <h3>感謝你的申請</h3>
+            <p>我們將在 2 週內回覆您的申請 🥵🥵</p>
+            <button type="button" class="btn btn-secondary" id="back-btn">返回</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© PeanutBuild Corp. · PeanutSMP 私人建築公司</p>
+      <p class="footer-note">本網站僅供 PeanutSMP 社群使用</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
