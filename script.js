@@ -7,9 +7,9 @@
  * 2. 建立 Template，內容可參考下方 templateParams 的變數
  * 3. 把下面三個常數改成你的實際值
  */
-const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";   // Account → API Keys → Public Key
-const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";   // Email Services → Service ID
-const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID"; // Email Templates → Template ID
+const EMAILJS_PUBLIC_KEY = "aOHKgzUh3ITq0nFnH";   // Account → API Keys → Public Key
+const EMAILJS_SERVICE_ID = "service_ma8rdvh";   // Email Services → Service ID
+const EMAILJS_TEMPLATE_ID = "template_kcxejbg"; // Email Templates → Template ID
 
 // 初始化 EmailJS（請先填入 Public Key）
 (function () {
