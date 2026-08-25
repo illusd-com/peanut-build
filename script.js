@@ -3,7 +3,7 @@
  * EmailJS 設定與 ccmc 相同（已驗證可寄送）
  */
 const EMAILJS_PUBLIC_KEY = "aOHKgzUh3ITq0nFnH";
-const EMAILJS_SERVICE_ID = "service_ma8rdvh";
+const EMAILJS_SERVICE_ID = "service_owi4ndt";
 const EMAILJS_TEMPLATE_ID = "template_d2p074o";
 
 // 與 ccmc 相同的初始化方式
