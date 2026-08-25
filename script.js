@@ -4,7 +4,7 @@
  */
 const EMAILJS_PUBLIC_KEY = "aOHKgzUh3ITq0nFnH";
 const EMAILJS_SERVICE_ID = "service_ma8rdvh";
-const EMAILJS_TEMPLATE_ID = "template_kcxejbg";
+const EMAILJS_TEMPLATE_ID = "template_d2p074o";
 
 // 與 ccmc 相同的初始化方式
 emailjs.init(EMAILJS_PUBLIC_KEY);
