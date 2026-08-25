@@ -1,22 +1,13 @@
 /**
  * PeanutBuild Corp. 申請表單
- * 使用 EmailJS 發送至 iilluussdd@gmail.com
- *
- * 設定方式（請到 https://www.emailjs.com 完成）：
- * 1. 建立帳號並連接 Email Service（例如 Gmail）
- * 2. 建立 Template，內容可參考下方 templateParams 的變數
- * 3. 把下面三個常數改成你的實際值
+ * EmailJS 設定與 ccmc 相同（已驗證可寄送）
  */
-const EMAILJS_PUBLIC_KEY = "aOHKgzUh3ITq0nFnH";   // Account → API Keys → Public Key
-const EMAILJS_SERVICE_ID = "service_ma8rdvh";   // Email Services → Service ID
-const EMAILJS_TEMPLATE_ID = "template_kcxejbg"; // Email Templates → Template ID
+const EMAILJS_PUBLIC_KEY = "aOHKgzUh3ITq0nFnH";
+const EMAILJS_SERVICE_ID = "service_ma8rdvh";
+const EMAILJS_TEMPLATE_ID = "template_kcxejbg";
 
-// 初始化 EmailJS（請先填入 Public Key）
-(function () {
-  if (EMAILJS_PUBLIC_KEY && EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
-    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-  }
-})();
+// 與 ccmc 相同的初始化方式
+emailjs.init(EMAILJS_PUBLIC_KEY);
 
 const openBtn = document.getElementById("open-form-btn");
 const closeBtn = document.getElementById("close-form-btn");
@@ -50,9 +41,11 @@ backBtn.addEventListener("click", () => {
 });
 
 function getCheckedValues(name) {
-  return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
-    .map((el) => el.value)
-    .join(", ") || "無";
+  return (
+    Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
+      .map((el) => el.value)
+      .join(", ") || "無"
+  );
 }
 
 applyForm.addEventListener("submit", async (e) => {
@@ -71,70 +64,56 @@ applyForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  // 至少選一個樓層較合理，但依需求可改為非強制
   if (floorsAbove === "無" && floorsBelow === "無") {
     const ok = confirm("你尚未選擇任何樓層，確定要繼續提交嗎？");
     if (!ok) return;
   }
 
-  // 組成寄給管理員的完整內容
-  const allData = `
-有新的申請來自於 PeanutBuild Corp.
+  const time = new Date().toLocaleString("zh-TW", { timeZone: "Asia/Taipei" });
 
-【Minecraft 名稱 / GamerTag】
-${gamertag}
+  // 完整申請內容（放進 message，方便 Template 用 {{message}} 顯示）
+  const message = [
+    "有新的申請來自於 PeanutBuild Corp.",
+    "",
+    "【Minecraft 名稱 / GamerTag】",
+    gamertag,
+    "",
+    "【想要的建築物內容】",
+    building,
+    "",
+    "【NutsTeamID】",
+    nutsTeamId,
+    "",
+    "【材料（方塊 ID）】",
+    materials,
+    "",
+    "【地面上樓層】",
+    floorsAbove,
+    "",
+    "【地面下樓層】",
+    floorsBelow,
+    "",
+    "【申請人 Email】",
+    email,
+    "",
+    "提交時間：" + time,
+  ].join("\n");
 
-【想要的建築物內容】
-${building}
-
-【NutsTeamID】
-${nutsTeamId}
-
-【材料（方塊 ID）】
-${materials}
-
-【地面上樓層】
-${floorsAbove}
-
-【地面下樓層】
-${floorsBelow}
-
-【申請人 Email】
-${email}
-
-提交時間：${new Date().toLocaleString("zh-TW", { timeZone: "Asia/Taipei" })}
-`.trim();
-
+  // 與 ccmc 相同的核心欄位 + 額外欄位（Template 有對應才會顯示）
   const templateParams = {
-    // 以下變數名稱請對應你在 EmailJS Template 裡設定的 {{變數}}
-    subject: "有新的申請來自於PeanutBuild Corp.",
-    message: allData,
-    from_name: gamertag,
-    reply_to: email,
     gamertag: gamertag,
+    email: email,
+    time: time,
+    message: message,
+    subject: "有新的申請來自於PeanutBuild Corp.",
     building: building,
     nuts_team_id: nutsTeamId,
     materials: materials,
     floors_above: floorsAbove,
     floors_below: floorsBelow,
-    user_email: email,
-    to_email: "iilluussdd@gmail.com",
+    from_name: gamertag,
+    reply_to: email,
   };
-
-  // 若尚未設定 EmailJS 金鑰，改用 mailto 後備方案並提示
-  if (
-    EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY" ||
-    EMAILJS_SERVICE_ID === "YOUR_SERVICE_ID" ||
-    EMAILJS_TEMPLATE_ID === "YOUR_TEMPLATE_ID"
-  ) {
-    console.warn("EmailJS 尚未設定，將使用 mailto 後備方案。");
-    const mailto = `mailto:iilluussdd@gmail.com?subject=${encodeURIComponent(
-      "有新的申請來自於PeanutBuild Corp."
-    )}&body=${encodeURIComponent(allData)}`;
-    window.location.href = mailto;
-    showSuccess();
-    return;
-  }
 
   submitBtn.disabled = true;
   submitBtn.textContent = "送出中…";
@@ -145,7 +124,14 @@ ${email}
     applyForm.reset();
   } catch (err) {
     console.error("EmailJS 發送失敗：", err);
-    alert("送出失敗，請稍後再試，或直接聯絡管理員。錯誤訊息已輸出至主控台。");
+    const detail =
+      (err && (err.text || err.message)) ||
+      (typeof err === "string" ? err : JSON.stringify(err));
+    alert(
+      "送出失敗：" +
+        detail +
+        "\n\n請打開瀏覽器 F12 → Console 查看完整錯誤。\n常見原因：\n1. EmailJS Template 的 To Email 未設定\n2. Gmail 服務需重新連線\n3. 本網域未加入 EmailJS Allowed Origins"
+    );
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = "提交申請";
